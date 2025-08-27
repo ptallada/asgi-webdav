@@ -17,6 +17,7 @@ from asgi_webdav.constants import (
     DEFAULT_FILENAME_CONTENT_TYPE_MAPPING,
     DEFAULT_HTTP_BASIC_AUTH_CACHE_TIMEOUT,
     DEFAULT_SUFFIX_CONTENT_TYPE_MAPPING,
+    DEFAULT_CACHE_EXPIRATION,
     AppEntryParameters,
     DAVCompressLevel,
 )
@@ -168,6 +169,7 @@ class Config(JSONWizard):
     # other
     logging: Logging = field(default_factory=Logging)
     sentry_dsn: str | None = None
+    cache_expiration: int = DEFAULT_CACHE_EXPIRATION
 
     def _update_from_env_config(self):
         env_config = EnvConfig()
@@ -260,6 +262,8 @@ class Config(JSONWizard):
         self._update_from_env_config()
         self._update_from_app_args(aep)
         self._fix_config()
+
+        cache_expiration = DEFAULT_CACHE_EXPIRATION
 
 
 _config: Config = Config()
